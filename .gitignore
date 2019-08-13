@@ -23,3 +23,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 client/public/favicon.ico
+client/public/logo192.png
+client/public/logo512.png
+client/README.md
+client/yarn.lock
+package-lock.json
+client/public/robots.txt
+RID.code-workspace
