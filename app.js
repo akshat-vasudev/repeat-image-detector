@@ -4,18 +4,27 @@ const path = require('path');
 const router = express.Router();
 const async  = require('express-async-await')
 const fetch = require('node-fetch') 
-var mustacheExpress = require('mustache-express');  
 const port = 9000
 
 app.use(express.static(path.join(__dirname, 'js')));
 app.set('views', path.join(__dirname, '/pages'));
-app.engine('mustache', mustacheExpress());
-app.set('view engine', 'mustache');
 
-router.get('/',function(req,res){ 
-  console.log(__dirname);         
-    res.render('index',{name: 'Akshat'});   
-    //__dirname : It will resolve to your project folder.
+router.get('/getCities:id?',async (req,res) => { 
+    const fetchURL = `https://locations-api.wework.com/api/v1/geogroupings/${req.params.id ? req.params.id : ''}`;
+    let geoGroupingServiceResponse = await fetch(fetchURL),
+    geoGroupingJSON = await geoGroupingServiceResponse.json(),
+    geoGroupingByCity = [];
+    geoGroupingJSON.geogroupings.filter(group => {
+      if(group.type.toLowerCase() === 'marketgeo'){
+        geoGroupingByCity.push({[group.name]:{
+          buildingIds: group.buildings
+        }});
+        return true;
+      }else{
+        return false;
+      }
+    });
+    res.send({data:geoGroupingByCity});
   });
 
   router.get('/getBuildingData/:id?', async (req,res) => {      
@@ -25,7 +34,7 @@ router.get('/',function(req,res){
       imagesNotBelongingToBuilding = 0,
       buildings = [];
       if(buildingId){ 
-        buildings[0] = {
+        buildings[0] = {  
             id: buildingId,
             images:[]
         }
@@ -49,9 +58,7 @@ router.get('/',function(req,res){
       }
 
       if(!buildingId){
-        res.render('index',{data: buildings},(err,html)=>{
-          res.send(html);
-        });
+        res.send({data: buildings});
       }
 
       for (let building = 0;building < buildings.length;building++) {
@@ -74,15 +81,15 @@ router.get('/',function(req,res){
                 buildingImages.sort((a,b) => {
                   return a.belongsToBuilding - b.belongsToBuilding;
                 });
+
+                buildings[building].percentOfWrongImages = (imagesNotBelongingToBuilding/totalImages*100).toFixed(2)
                 //buildings[id].images = buildingJSON.data;
                 //console.log(buildings[id]);
       }
       //res.send(buildings);
       //console.log('done with JS logic');
       
-      res.render('index',{data: buildings, percentOfWrongImages:(imagesNotBelongingToBuilding/totalImages*100).toFixed(2)},(err,html)=>{
-        res.send(html); 
-      });
+      res.send({data: buildings});
 
     });
 
