@@ -25,13 +25,13 @@ let ImageList = (props) => {
             if(!image.belongsToBuilding)wrongImageCount++;
             return (<li key={idx}>
                 <span className={`belongsToBuilding-${image.belongsToBuilding}`}></span>
-                <a target='_blank' href={image.url}>{image.caption}</a>
+                <a target='_blank' href={image.url}>{image.caption.length>0?image.caption:<i>No Caption Provided</i>}</a>
             </li>)})}
         </ul>
         </article>
         )}
         )
-        buildingMarkup = [<div key='percentpercity' className='percentPerCity'>Repeat images in all buildings: {(wrongImageCount/totalImageCount*100).toFixed(2)}%</div>,..._Els];
+        buildingMarkup = [<div key='percentpercity' className='percentPerCity'>Repeat images in all buildings of this city: {(wrongImageCount/totalImageCount*100).toFixed(2)}%</div>,..._Els];
         
         return buildingMarkup;
         
@@ -39,6 +39,11 @@ let ImageList = (props) => {
 
     return (
         <section className='list_of_images'>
+            <div class='disclaimer'>Disclaimer
+        <span>The images are classified as 'not belonging to building' (red dot) if the caption for that image contains "Example Shown:". 
+        This is the only consistant parameter found across the dataset to determine if the image belongs to a specific building or if another buildings image is being used as a placeholder.
+        </span>
+        </div>
             {getImageAndCityMarkup(props.buildings)}
         </section>
     )

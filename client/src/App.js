@@ -38,6 +38,7 @@ function App() {
     }
 
     let renderCities = () => cities.map((city, i) =>  <City key={i} city={Object.keys(city)} handleUserClick={() => {
+      window.scrollTo(0,0);
       updateImageToCityMap([]);
       updateOpenOverlay(true);
       getImagesForAllBuildingsInTheCity(city)}} />);
