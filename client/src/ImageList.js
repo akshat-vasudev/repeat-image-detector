@@ -26,14 +26,12 @@ let ImageList = (props) => {
             return (<li key={idx}>
                 <span className={`belongsToBuilding-${image.belongsToBuilding}`}></span>
                 <a target='_blank' href={image.url}>{image.caption}</a>
-                {/* <button className='btn' data-clipboard-text={image.url}>Copy URL</button>
-                <button className='btn' data-clipboard-text={image.id}>Copy UUID</button> */}
             </li>)})}
         </ul>
         </article>
         )}
         )
-        buildingMarkup = [<article key='percentpercity' className='percentPerCity'>Repeat images in all buildings: {(wrongImageCount/totalImageCount*100).toFixed(2)}%</article>,..._Els];
+        buildingMarkup = [<div key='percentpercity' className='percentPerCity'>Repeat images in all buildings: {(wrongImageCount/totalImageCount*100).toFixed(2)}%</div>,..._Els];
         
         return buildingMarkup;
         

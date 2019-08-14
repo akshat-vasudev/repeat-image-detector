@@ -65,7 +65,6 @@ router.get('/getCities:id?',async (req,res) => {
       }
 
       for (let building = 0;building < buildings.length;building++) {
-          //console.log(`https://locations-api.wework.com/api/v2/buildings/${id}`);
               let buildingImagesServiceResponse = await fetch(`https://locations-api.wework.com/api/v2/buildings/${buildings[building].id}`),
               buildingImages = buildings[building].images,
                 buildingImagesJSON = await buildingImagesServiceResponse.json(),
@@ -87,11 +86,7 @@ router.get('/getCities:id?',async (req,res) => {
                 });
 
                 buildings[building].percentOfWrongImages = (imagesNotBelongingToBuilding/totalImages*100).toFixed(2)
-                //buildings[id].images = buildingJSON.data;
-                //console.log(buildings[id]);
       }
-      //res.send(buildings);
-      //console.log('done with JS logic');
       
       res.send({data: buildings});
 
