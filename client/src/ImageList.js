@@ -1,7 +1,7 @@
-import React from 'react';
+import React,{useState} from 'react';
 let ImageList = (props) => {
 
-    let wrongImageCount = 0, totalImageCount = 0, percentOfWrongImagesPerCity = 0;
+    let wrongImageCount = 0, totalImageCount = 0;
 
     let getImageAndCityMarkup = (buildings) => {
         if(buildings.length ===  0){
@@ -11,34 +11,36 @@ let ImageList = (props) => {
         }
 
         
-        let buildingMarkup = buildings.map((building, i) => 
+        let buildingMarkup = [''];
+        let _Els = buildings.map((building, i) => {return (
+            
         <article key={i}>
         <div className='building_name' >
                 {building.address}
         </div>
-        <div className='wrong_image_percent'>Wrong Images: {building.percentOfWrongImages}%</div>
+        <div className='wrong_image_percent'>Repeat Images: {building.percentOfWrongImages}%</div>
         <ul>
         {building.images.map((image, idx) => {
             totalImageCount++;
             if(!image.belongsToBuilding)wrongImageCount++;
             return (<li key={idx}>
                 <span className={`belongsToBuilding-${image.belongsToBuilding}`}></span>
-                <a target='_blank' href={image.url}>{image.id}</a>
+                <a target='_blank' href={image.url}>{image.caption}</a>
                 {/* <button className='btn' data-clipboard-text={image.url}>Copy URL</button>
                 <button className='btn' data-clipboard-text={image.id}>Copy UUID</button> */}
             </li>)})}
         </ul>
         </article>
-        );
-        debugger;
-        percentOfWrongImagesPerCity = wrongImageCount/totalImageCount*100;
+        )}
+        )
+        buildingMarkup = [<article className='percentPerCity'>Repeat images in all buildings: {(wrongImageCount/totalImageCount*100).toFixed(2)}%</article>,..._Els];
+        
         return buildingMarkup;
         
     }
 
     return (
         <section className='list_of_images'>
-            {/* {percentOfWrongImagesPerCity}% */}
             {getImageAndCityMarkup(props.buildings)}
         </section>
     )

@@ -112,6 +112,12 @@ span {
     margin-bottom: 20px;
 }
 
+article.percentPerCity {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
 
 @keyframes lds-eclipse {
   0% {

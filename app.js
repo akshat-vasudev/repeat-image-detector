@@ -75,7 +75,8 @@ router.get('/getCities:id?',async (req,res) => {
                     buildingImages.push({
                       id:buildingImagesData[images].id,
                       url:buildingImagesData[images].url,
-                      belongsToBuilding: belongsToBuilding
+                      belongsToBuilding: belongsToBuilding,
+                      caption:buildingImagesData[images].caption.replace('example shown: ','').replace('Example shown: ','')
                     });
                 }
                 buildingImages.sort((a,b) => {
