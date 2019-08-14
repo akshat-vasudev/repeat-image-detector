@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 let ImageList = (props) => {
 
     let wrongImageCount = 0, totalImageCount = 0;
@@ -33,7 +33,7 @@ let ImageList = (props) => {
         </article>
         )}
         )
-        buildingMarkup = [<article className='percentPerCity'>Repeat images in all buildings: {(wrongImageCount/totalImageCount*100).toFixed(2)}%</article>,..._Els];
+        buildingMarkup = [<article key='percentpercity' className='percentPerCity'>Repeat images in all buildings: {(wrongImageCount/totalImageCount*100).toFixed(2)}%</article>,..._Els];
         
         return buildingMarkup;
         

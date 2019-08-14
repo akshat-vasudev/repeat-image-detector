@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import City from './City';
 import ImageList from './ImageList';
@@ -23,10 +22,9 @@ function App() {
         updateImageToCityMap(allImages);
         return false;
       }
-      let buildingServiceResponse = fetch(`/getBuildingData/${allBuildingsInCity[building]}`).then((buildingServiceResponse) => {
+      fetch(`/getBuildingData/${allBuildingsInCity[building]}`).then((buildingServiceResponse) => {
         buildingServiceResponse.json().then((buildingDataJSON) => {
           allImages = [...allImages,...buildingDataJSON.data]
-          //updateImageToCityMap([...imageToCityMap,...buildingDataJSON.data]);
           
           fetchImages(allBuildingsInCity, ++building, allImages);
         });
@@ -37,10 +35,6 @@ function App() {
     let getImagesForAllBuildingsInTheCity = (city) => {
       let allBuildingsInCity = city[Object.keys(city)[0]].buildingIds;
       fetchImages(allBuildingsInCity);
-    }
-
-    let renderBuildingsInCityWithImageData = () => {
-      return imageToCityMap.map((building) => building.address);
     }
 
     let renderCities = () => cities.map((city, i) =>  <City key={i} city={Object.keys(city)} handleUserClick={() => {
