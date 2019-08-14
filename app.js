@@ -4,7 +4,7 @@ const path = require('path');
 const router = express.Router();
 const async  = require('express-async-await')
 const fetch = require('node-fetch') 
-const port = 9000
+const port = process.env.PORT || 9000
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
