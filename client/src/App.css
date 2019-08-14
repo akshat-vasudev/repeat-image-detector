@@ -178,7 +178,7 @@ li span {
 div.disclaimer {
   text-align: center;
   position: relative;
-  width: 100%;
+  width: 100px;
   height: 20px;
   margin: 0 auto 20px auto;
   text-decoration: underline;
@@ -194,6 +194,7 @@ div.disclaimer span {
   border-radius: 10px;
   left: 90px;
   top: 0;
+  z-index: 1;
 }
 
 div.disclaimer:hover span {

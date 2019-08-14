@@ -38,14 +38,14 @@ let ImageList = (props) => {
     }
 
     return (
-        <section className='list_of_images'>
-            <div class='disclaimer'>Disclaimer
+        [<div class='disclaimer'>Disclaimer
         <span>The images are classified as 'not belonging to building' (red dot) if the caption for that image contains "Example Shown:". 
         This is the only consistant parameter found across the dataset to determine if the image belongs to a specific building or if another buildings image is being used as a placeholder.
         </span>
-        </div>
+        </div>,
+        <section className='list_of_images'>            
             {getImageAndCityMarkup(props.buildings)}
-        </section>
+        </section>]
     )
 }
 
