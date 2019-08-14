@@ -110,6 +110,10 @@ li span {
     color: black;
 }
 
+.parent_wrapper .building_name a{
+  color: black;
+}
+
 .parent_wrapper .wrong_image_percent {
     margin-bottom: 20px;
 }

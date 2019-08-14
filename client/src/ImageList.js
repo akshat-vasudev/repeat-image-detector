@@ -16,7 +16,7 @@ let ImageList = (props) => {
             
         <article key={i}>
         <div className='building_name' >
-                {building.address}
+                <a href={`http://www.wework.com/buildings/${building.id}`} target='_blank'>{building.address}</a>
         </div>
         <div className='wrong_image_percent'>Repeat Images: {building.percentOfWrongImages}%</div>
         <ul>
