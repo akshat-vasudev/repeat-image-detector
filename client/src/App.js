@@ -38,9 +38,7 @@ function App() {
     }
 
     let renderCities = () => cities.map((city, i) =>  <City key={i} city={Object.keys(city)} handleUserClick={() => {
-      //updateImageToCityMap(['akshat']);
       updateImageToCityMap([]);
-      console.log(imageToCityMap);
       updateOpenOverlay(true);
       getImagesForAllBuildingsInTheCity(city)}} />);
   return (
@@ -51,8 +49,6 @@ function App() {
       <section className='list_of_cities'>
         {renderCities()}
       </section>
-      <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
-      <script> new ClipboardJS('.btn');</script>
     </main>
   );
 }

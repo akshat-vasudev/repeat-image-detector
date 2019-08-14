@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const router = express.Router();
-const async  = require('express-async-await')
 const fetch = require('node-fetch') 
 const port = process.env.PORT || 9000
 
