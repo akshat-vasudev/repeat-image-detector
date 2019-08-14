@@ -6,8 +6,11 @@ const async  = require('express-async-await')
 const fetch = require('node-fetch') 
 const port = 9000
 
-app.use(express.static(path.join(__dirname, 'js')));
-app.set('views', path.join(__dirname, '/pages'));
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+router.get('/', (req,res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+})
 
 router.get('/getCities:id?',async (req,res) => { 
     const fetchURL = `https://locations-api.wework.com/api/v1/geogroupings/${req.params.id ? req.params.id : ''}`;

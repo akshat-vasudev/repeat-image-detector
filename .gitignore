@@ -30,3 +30,5 @@ client/yarn.lock
 package-lock.json
 client/public/robots.txt
 RID.code-workspace
+client/build/logo192.png
+client/build/logo512.png
