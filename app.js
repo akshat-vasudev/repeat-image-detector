@@ -4,6 +4,12 @@ const path = require('path');
 const router = express.Router();
 const fetch = require('node-fetch') 
 const port = process.env.PORT || 9000
+const locationsApiAuthHeaders = {
+  headers: {
+    Authorization: `Basic ${process.env.LOCATIONS_API_AUTH}`,
+    Origin: (process.env.SITE_URL || 'www-staging.wework.com').replace(/^(https?:|)\/\//, '')
+  }
+};
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -13,7 +19,7 @@ router.get('/', (req,res) => {
 
 router.get('/getCities:id?',async (req,res) => { 
     const fetchURL = `https://locations-api.wework.com/api/v1/geogroupings/${req.params.id ? req.params.id : ''}`;
-    let geoGroupingServiceResponse = await fetch(fetchURL),
+    let geoGroupingServiceResponse = await fetch(fetchURL, locationsApiAuthHeaders),
     geoGroupingJSON = await geoGroupingServiceResponse.json(),
     geoGroupingByCity = [];
     geoGroupingJSON.geogroupings.filter(group => {
@@ -41,7 +47,7 @@ router.get('/getCities:id?',async (req,res) => {
             images:[]
         }
       }else{
-        let buildingsServiceResponse = await fetch('https://locations-api.wework.com/api/v2/buildings/'),
+        let buildingsServiceResponse = await fetch('https://locations-api.wework.com/api/v2/buildings/',locationsApiAuthHeaders),
         buildingsJSON = await buildingsServiceResponse.json(),
         buildingsList = buildingsJSON.buildings,
         numberOfBuildings = buildingsList.length;   
@@ -64,7 +70,7 @@ router.get('/getCities:id?',async (req,res) => {
       }
 
       for (let building = 0;building < buildings.length;building++) {
-              let buildingImagesServiceResponse = await fetch(`https://locations-api.wework.com/api/v2/buildings/${buildings[building].id}`),
+              let buildingImagesServiceResponse = await fetch(`https://locations-api.wework.com/api/v2/buildings/${buildings[building].id}`, locationsApiAuthHeaders),
               buildingImages = buildings[building].images,
                 buildingImagesJSON = await buildingImagesServiceResponse.json(),
                 buildingImagesData = buildingImagesJSON.building.images;
