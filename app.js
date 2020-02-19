@@ -4,10 +4,13 @@ const path = require('path');
 const router = express.Router();
 const fetch = require('node-fetch') 
 const port = process.env.PORT || 9000
+require('dotenv').config();
 const locationsApiAuthHeaders = {
+  method: 'GET',
   headers: {
-    Authorization: `Basic ${process.env.LOCATIONS_API_AUTH}`,
-    Origin: (process.env.SITE_URL || 'www-staging.wework.com').replace(/^(https?:|)\/\//, '')
+    'Authorization': `Basic ${process.env.LOCATIONS_API_AUTH}`,
+    'Origin': (process.env.SITE_URL || 'www-staging.wework.com').replace(/^(https?:|)\/\//, ''),
+    'Content-Type': 'application/json',
   }
 };
 
@@ -17,8 +20,8 @@ router.get('/', (req,res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 })
 
-router.get('/getCities:id?',async (req,res) => { 
-    const fetchURL = `https://locations-api.wework.com/api/v1/geogroupings/${req.params.id ? req.params.id : ''}`;
+router.get('/getCities:id?',async (req,res) => {
+    const fetchURL = `${process.env.API_PROXY_URL}/locations/api/v1/geogroupings/${req.params.id ? req.params.id : ''}`;
     let geoGroupingServiceResponse = await fetch(fetchURL, locationsApiAuthHeaders),
     geoGroupingJSON = await geoGroupingServiceResponse.json(),
     geoGroupingByCity = [];
@@ -35,8 +38,7 @@ router.get('/getCities:id?',async (req,res) => {
     res.send({data:geoGroupingByCity});
   });
 
-  router.get('/getBuildingData/:id?', async (req,res) => {      
-      debugger;
+  router.get('/getBuildingData/:id?', async (req,res) => { 
       let buildingId = req.params.id,  
       totalImages = 0,
       imagesNotBelongingToBuilding = 0,
@@ -47,7 +49,7 @@ router.get('/getCities:id?',async (req,res) => {
             images:[]
         }
       }else{
-        let buildingsServiceResponse = await fetch('https://locations-api.wework.com/api/v2/buildings/',locationsApiAuthHeaders),
+        let buildingsServiceResponse = await fetch(`${process.env.API_PROXY_URL}/locations/api/v2/buildings/`,locationsApiAuthHeaders),
         buildingsJSON = await buildingsServiceResponse.json(),
         buildingsList = buildingsJSON.buildings,
         numberOfBuildings = buildingsList.length;   
@@ -70,7 +72,7 @@ router.get('/getCities:id?',async (req,res) => {
       }
 
       for (let building = 0;building < buildings.length;building++) {
-              let buildingImagesServiceResponse = await fetch(`https://locations-api.wework.com/api/v2/buildings/${buildings[building].id}`, locationsApiAuthHeaders),
+              let buildingImagesServiceResponse = await fetch(`${process.env.API_PROXY_URL}/locations/api/v2/buildings/${buildings[building].id}`, locationsApiAuthHeaders),
               buildingImages = buildings[building].images,
                 buildingImagesJSON = await buildingImagesServiceResponse.json(),
                 buildingImagesData = buildingImagesJSON.building.images;
